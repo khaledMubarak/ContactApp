@@ -6,9 +6,11 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
 
   const CustomTextField(
-      {super.key, required this.hintText, required this.customIcon, required this.controller}
-      );
- 
+      {super.key,
+      required this.hintText,
+      required this.customIcon,
+      required this.controller});
+
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -20,15 +22,24 @@ class CustomTextField extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
           ),
-          filled: true,
-          fillColor: Colors.white,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
           ),
-          focusColor: Colors.red,
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          focusColor: Colors.blue,
           hintText: hintText,
           hintStyle: const TextStyle(
             color: Colors.black54,

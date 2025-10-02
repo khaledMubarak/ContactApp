@@ -1,4 +1,5 @@
 
+import 'package:contact_app/model/contact_item.dart';
 import 'package:contact_app/widgets/contact_card.dart';
 import 'package:contact_app/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class ContactScreen extends StatefulWidget {
 class _ContactScreenState extends State<ContactScreen> {
     final TextEditingController contactNumber=TextEditingController();
     final TextEditingController contactName=TextEditingController();
-     List<ContactController>contacts=[];
+     List<ContactItem>contacts=[];
   @override 
   Widget build(BuildContext context) {
     final double height= MediaQuery.of(context).size.height;
@@ -38,14 +39,14 @@ class _ContactScreenState extends State<ContactScreen> {
                   Expanded(
                       child: ElevatedButton(
                           onPressed: () {
-                           contacts.add(ContactController(contactNumber: TextEditingController(text: contactNumber.text), contactName: TextEditingController(text: contactName.text),));
+                           contacts.add(ContactItem(contactNumber: TextEditingController(text: contactNumber.text), contactName: TextEditingController(text: contactName.text),));
                            setState(() {
                               
                             });
                             contactNumber.clear();
                             contactName.clear();
                           },
-                          style: ElevatedButton.styleFrom(),
+                          style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
                           child: const Text('Add'))),
                   const SizedBox(
                     width: 8,
@@ -53,30 +54,25 @@ class _ContactScreenState extends State<ContactScreen> {
                   Expanded(
                       child: ElevatedButton(
                           onPressed: () {
-                            contacts.isEmpty? null: contacts.removeLast();
+                            if(contacts.isNotEmpty) contacts.removeLast();
                             setState(() {
                               
                             });
                           },
                           style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100)),
                               backgroundColor: Colors.red),
                           child: const Text('Delete'))),
                 ],
               ),
               SizedBox(height: height*0.02,),
                Expanded(
-              child: ListView(
-                children: contacts
-                    .map((c) => Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: ContactCard(
-                            controller: c,
-                            height: height,
-                            isVisible: true,
-                          ),
-                        )
-                        )
-                    .toList(),
+              child: ListView.builder(
+
+                    itemBuilder: (_, index)=> ContactCard(controller: contacts[index], height: height) ,
+                    itemCount: contacts.length,
+                    physics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
                     )
                     )
 
@@ -86,10 +82,3 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 }
 
-class ContactController{
-  final TextEditingController contactNumber;
-  final TextEditingController contactName;
-
-  const ContactController({required this.contactNumber, required this.contactName});
-
-}
